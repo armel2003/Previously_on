@@ -15,7 +15,9 @@ function loadPersisted() {
 function persist(state) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ token: state.token, user: state.user }))
-  } catch {}
+  } catch {
+    // ignore persistence errors in private mode or blocked storage
+  }
 }
 
 export const useAuthStore = defineStore('auth', {

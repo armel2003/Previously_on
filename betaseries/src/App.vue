@@ -1,17 +1,17 @@
 <script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
-
-
-</script>
+import { RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from './stores/auth'
 import { useRouter } from 'vue-router'
+
 const auth = useAuthStore()
 const router = useRouter()
-function doLogout(){ auth.logout(); router.push({ name: 'login' }) }
+function doLogout() {
+  auth.logout()
+  router.push({ name: 'login' })
+}
+</script>
 
 <template>
-  <!-- <header>
   <header style="display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid #eee;">
     <strong>Previously On</strong>
     <nav style="display:flex;gap:1rem;align-items:center;">
@@ -26,6 +26,7 @@ function doLogout(){ auth.logout(); router.push({ name: 'login' }) }
       </template>
     </nav>
   </header>
-  <!-- <RouterView /> -->
+  <RouterView />
+  
 </template>
 
