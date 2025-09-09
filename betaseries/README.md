@@ -1,51 +1,21 @@
-# betaseries
+## BetaSeries OAuth Demo (Vue 3 + Vite)
 
-This template should help get you started developing with Vue 3 in Vite.
+Setup
+- Copy `.env.example` to `.env` and fill values:
+	- VITE_BS_AUTHORIZE_URL=https://www.betaseries.com/authorize
+	- VITE_BS_TOKEN_URL=https://api.betaseries.com/oauth/access_token
+	- VITE_BS_CLIENT_ID=<your client id>
+	- VITE_BS_SECRET=<your client secret> (avoid in SPA; use a backend or PKCE if available)
+	- VITE_BS_REDIRECT_URI=http://localhost:5175/callback
+	- VITE_BS_API_VERSION=3.0
 
-## OAuth BetaSeries (dev)
+Run
+- npm install
+- npm run dev
+- Open http://localhost:5175
 
-Environment variables (in `.env`):
+Flow
+- Click Login, you’ll be redirected to BetaSeries. After consent, you’ll land on `/callback` where the code is exchanged for a token and stored in localStorage.
 
-- `VITE_BS_AUTH_URL` (default: https://www.betaseries.com)
-- `VITE_BS_API_URL` (default: https://api.betaseries.com)
-- `VITE_BS_API_KEY` (client_id)
-- `VITE_BS_SECRET` (client_secret) — avoid in production frontend
-- `VITE_BS_REDIRECT_URI` (e.g., http://localhost:5173/login)
-
-In dev, ensure the Vite dev server runs on `5173` to match your redirect URI, or update the URI in BetaSeries app settings.
-
-Login route: `/login`
-
-Protected routes use `meta.requiresAuth`.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Notes
+- For production, move token exchange to a backend or use PKCE if the provider supports it. The client_secret in a public SPA is not secure.

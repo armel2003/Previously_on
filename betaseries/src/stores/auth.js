@@ -1,77 +1,44 @@
 import { defineStore } from 'pinia'
-import { buildAuthorizationUrl, exchangeCodeForToken, fetchUserInfos } from '../services/auth'
+import { exchangeCodeForToken } from '@/services/authService'
 
-const STORAGE_KEY = 'bs_auth'
-
-function loadPersisted() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? JSON.parse(raw) : { token: null, user: null }
-  } catch {
-    return { token: null, user: null }
-  }
-}
-
-function persist(state) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ token: state.token, user: state.user }))
-  } catch {
-    // ignore persistence errors in private mode or blocked storage
-  }
-}
+const TOKEN_KEY = 'bs_access_token'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    token: loadPersisted().token,
-    user: loadPersisted().user,
+    accessToken: localStorage.getItem(TOKEN_KEY) || null,
+    user: null,
     loading: false,
     error: null,
   }),
   getters: {
-    isAuthenticated: (s) => !!s.token,
+    isAuthenticated: (s) => !!s.accessToken,
   },
   actions: {
-    login() {
-      // Optionally pass a CSRF state
-      const state = Math.random().toString(36).slice(2)
-      sessionStorage.setItem('oauth_state', state)
-      window.location.href = buildAuthorizationUrl(state)
+    setToken(token) {
+      this.accessToken = token
+      if (token) localStorage.setItem(TOKEN_KEY, token)
+      else localStorage.removeItem(TOKEN_KEY)
+    }
+    ,
+    logout() {
+      this.setToken(null)
+      this.user = null
     },
-    async handleOAuthCallback(query) {
-      const { code, state } = query
-      const expected = sessionStorage.getItem('oauth_state')
-      if (expected && state && state !== expected) {
-        this.error = 'Invalid OAuth state'
-        return false
-      }
-      if (!code) {
-        this.error = 'Missing authorization code'
-        return false
-      }
+    async handleOAuthCallback(code) {
       this.loading = true
       this.error = null
       try {
-        const tokenResp = await exchangeCodeForToken(code)
-        const accessToken = tokenResp?.token || tokenResp?.access_token
-        this.token = accessToken
-        const user = await fetchUserInfos(accessToken)
-        this.user = user
-        persist(this)
-        return true
+        const data = await exchangeCodeForToken(code)
+        const token = data.access_token || data.token || data.oauth_token || null
+        if (!token) throw new Error('Aucun token retourné')
+        this.setToken(token)
+        return token
       } catch (e) {
-        this.error = e.message
-        this.token = null
-        this.user = null
-        persist(this)
-        return false
+        this.error = e.message || String(e)
+        throw e
       } finally {
         this.loading = false
       }
-    },
-    logout() {
-      this.token = null
-      this.user = null
-      persist(this)
     },
   },
 })

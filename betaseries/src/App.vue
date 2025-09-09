@@ -1,32 +1,26 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { useAuthStore } from './stores/auth'
-import { useRouter } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 
 const auth = useAuthStore()
-const router = useRouter()
-function doLogout() {
+const { isAuthenticated } = storeToRefs(auth)
+function logout() {
   auth.logout()
-  router.push({ name: 'login' })
 }
 </script>
 
 <template>
-  <header style="display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid #eee;">
-    <strong>Previously On</strong>
-    <nav style="display:flex;gap:1rem;align-items:center;">
-      <RouterLink :to="{name:'home'}">Accueil</RouterLink>
-      <RouterLink :to="{name:'about'}">À propos</RouterLink>
-      <template v-if="auth.isAuthenticated">
-        <span v-if="auth.user">Bonjour, {{ auth.user?.login || auth.user?.username }}</span>
-        <button @click="doLogout">Se déconnecter</button>
-      </template>
-      <template v-else>
-        <RouterLink :to="{name:'login'}">Se connecter</RouterLink>
-      </template>
+  <header class="container">
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+  <RouterLink v-if="!isAuthenticated" to="/login">Login</RouterLink>
+  <button v-else @click="logout">Logout</button>
     </nav>
   </header>
-  <RouterView />
+  <main class="container">
+    <RouterView />
+  </main>
+  
   
 </template>
 
