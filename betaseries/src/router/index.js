@@ -1,26 +1,25 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
+import Login from "../views/Login.vue";
+// import Films from "../views/Films.vue";
+import Callback from "../views/Callback.vue";
+import { useAuthStore } from "../stores/auth";
 
-const Home = () => import('../views/Home.vue')
-const Login = () => import('../views/Login.vue')
-const OAuthCallback = () => import('../views/OAuthCallback.vue')
+const routes = [
+  { path: "/", component: Login },
+  { path: "/callback", component: Callback },
+  // { path: "/films", component: Films, meta: { requiresAuth: true } }
+];
 
-export const router = createRouter({
+const router = createRouter({
   history: createWebHistory(),
-  routes: [
-    { path: '/', name: 'home', component: Home, meta: { requiresAuth: true } },
-    { path: '/login', name: 'login', component: Login, meta: { public: true } },
-    { path: '/callback', name: 'callback', component: OAuthCallback, meta: { public: true } },
-  ],
-})
+  routes
+});
 
-// Global auth guard: requires token for non-public routes
 router.beforeEach((to) => {
-  if (to.meta?.public) return true
-  const token = localStorage.getItem('bs_access_token')
-  if (!token) {
-    return { name: 'login', query: { redirect: to.fullPath } }
+  const auth = useAuthStore();
+  if (to.meta.requiresAuth && !auth.token) {
+    return "/";
   }
-  return true
-})
+});
 
-export default router
+export default router;

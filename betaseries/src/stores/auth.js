@@ -1,44 +1,17 @@
-import { defineStore } from 'pinia'
-import { exchangeCodeForToken } from '@/services/authService'
+import { defineStore } from "pinia";
 
-const TOKEN_KEY = 'bs_access_token'
-
-export const useAuthStore = defineStore('auth', {
+export const useAuthStore = defineStore("auth", {
   state: () => ({
-    accessToken: localStorage.getItem(TOKEN_KEY) || null,
-    user: null,
-    loading: false,
-    error: null,
+    token: localStorage.getItem("token") || null
   }),
-  getters: {
-    isAuthenticated: (s) => !!s.accessToken,
-  },
   actions: {
     setToken(token) {
-      this.accessToken = token
-      if (token) localStorage.setItem(TOKEN_KEY, token)
-      else localStorage.removeItem(TOKEN_KEY)
-    }
-    ,
+      this.token = token;
+      localStorage.setItem("token", token);
+    },
     logout() {
-      this.setToken(null)
-      this.user = null
-    },
-    async handleOAuthCallback(code) {
-      this.loading = true
-      this.error = null
-      try {
-        const data = await exchangeCodeForToken(code)
-        const token = data.access_token || data.token || data.oauth_token || null
-        if (!token) throw new Error('Aucun token retourné')
-        this.setToken(token)
-        return token
-      } catch (e) {
-        this.error = e.message || String(e)
-        throw e
-      } finally {
-        this.loading = false
-      }
-    },
-  },
-})
+      this.token = null;
+      localStorage.removeItem("token");
+    }
+  }
+});

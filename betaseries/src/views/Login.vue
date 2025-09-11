@@ -1,26 +1,15 @@
-<script setup>
-import { onMounted } from 'vue'
-import { buildAuthorizeUrl } from '@/services/authService'
-
-function login() {
-  const url = buildAuthorizeUrl(crypto.randomUUID?.() || Date.now().toString())
-  window.location.href = url
-}
-
-onMounted(() => {
-  // optional: auto-redirect
-})
-</script>
-
 <template>
-  <section class="container">
+  <div class="login">
     <h1>Connexion à BetaSeries</h1>
-    <p>Vous allez être redirigé vers BetaSeries pour autoriser l’application.</p>
-    <button @click="login">Se connecter avec BetaSeries</button>
-  </section>
-  
+    <button @click="login">Se connecter</button>
+  </div>
 </template>
 
-<style scoped>
-button { padding: .5rem 1rem; }
-</style>
+<script setup>
+const CLIENT_ID = "1d6a0f0e056a"; 
+const REDIRECT_URI = "http://localhost:5173/callback"; 
+
+function login() {
+  window.location.href = `https://www.betaseries.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+}
+</script>
