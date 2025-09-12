@@ -1,24 +1,26 @@
 <script setup>
-// import { RouterLink, RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
+import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/stores/auth'
 
-
+const auth = useAuthStore()
+const { isAuthenticated } = storeToRefs(auth)
+function logout() {
+  auth.logout()
+}
 </script>
 
 <template>
-  <!-- <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Homejjjjjjjjjjjjjjjjjjjjjjjjjjjj</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header> -->
-
-  <!-- <RouterView /> -->
+  <header class="container">
+    <nav>
+      <RouterLink to="/">Home</RouterLink>
+  <RouterLink v-if="!isAuthenticated" to="/login">Login</RouterLink>
+  <button v-else @click="logout">Logout</button>
+    </nav>
+  </header>
+  <main class="container">
+    <RouterView />
+  </main>
+  
+  
 </template>
 
