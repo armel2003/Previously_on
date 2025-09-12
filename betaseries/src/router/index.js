@@ -1,13 +1,16 @@
 import { createRouter, createWebHistory } from "vue-router";
+
 import Login from "../views/Login.vue";
-// import Films from "../views/Films.vue";
+import Films from "../views/Films.vue";
+import Series from "../views/Series.vue";
 import Callback from "../views/Callback.vue";
 import { useAuthStore } from "../stores/auth";
 
 const routes = [
   { path: "/", component: Login },
   { path: "/callback", component: Callback },
-  // { path: "/films", component: Films, meta: { requiresAuth: true } }
+  { path: "/films", component: Films, meta: { requiresAuth: true } },
+  { path: "/series", component: Series, meta: { requiresAuth: true } }
 ];
 
 const router = createRouter({
