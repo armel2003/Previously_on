@@ -12,6 +12,9 @@
     <div class="detail">
       <div class="detail-poster">
         <img :src="contentImage" :alt="`Affiche de ${content.title}`" class="poster" />
+        <button @click="markAsWatched" class="btn btn-success watch-btn">
+          <span class="icon">✅</span> Marquer comme vu
+        </button>
       </div>
       
       <div class="detail-content">
@@ -55,9 +58,9 @@
         </div>
         
         <div class="detail-actions">
-          <button @click="markAsWatched" class="btn btn-success watch-btn">
-            <span class="icon">✅</span> Marquer comme vu
-          </button>
+          <a href="#" class="btn-secondary">
+            <span class="icon">🔗</span> Voir sur BetaSeries
+          </a>
         </div>
       </div>
     </div>
