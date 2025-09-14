@@ -8,7 +8,6 @@
   --primary-color-light: #b47cff;
   --primary-color-dark: #3f1dcb;
   --secondary-color: #00c8ff;
-  --accent-color: #ff4081;
   
   /* Background colors */
   --bg-color: #121212;
@@ -36,11 +35,9 @@
   --content-spacing: 2rem;
   --card-gap: 1.5rem;
   
-  /* Accent and success colors */
+  /* Status colors */
   --success-color: #4caf50;
   --error-color: #ff5252;
-  --info-color: #2196f3;
-  --warning-color: #ff9800;
   
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -269,61 +266,6 @@ input:focus, select:focus, textarea:focus {
   border-color: var(--primary-color);
 }
 
-/* Card grid */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--card-gap);
-  margin: 2rem 0;
-}
-
-.card {
-  background: var(--bg-card-color);
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-shadow: var(--box-shadow);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  background: var(--bg-card-hover);
-}
-
-.card img {
-  width: 100%;
-  aspect-ratio: 2/3;
-  object-fit: cover;
-  border-radius: var(--border-radius) var(--border-radius) 0 0;
-}
-
-.card h2 {
-  font-size: 1.2rem;
-  margin: 0.75rem 0 0.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  padding: 0 0.75rem;
-}
-
-.card p {
-  margin: 0.25rem 0;
-  font-size: 0.9rem;
-  color: var(--text-tertiary);
-  padding: 0 0.75rem;
-}
-
-.card-content {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
 
 /* Detail page styling */
 .detail {
@@ -368,18 +310,7 @@ input:focus, select:focus, textarea:focus {
   border-left: 4px solid var(--error-color);
 }
 
-/* Utility classes */
-.text-center {
-  text-align: center;
-}
-
-.mt-2 {
-  margin-top: 2rem;
-}
-
-.mb-2 {
-  margin-bottom: 2rem;
-}
+/* Responsive utility classes are removed as they were unused */
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
