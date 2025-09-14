@@ -1,13 +1,17 @@
 import { createRouter, createWebHistory } from "vue-router";
+
 import Login from "../views/Login.vue";
-// import Films from "../views/Films.vue";
+// import dynamique pour Films et Series
 import Callback from "../views/Callback.vue";
 import { useAuthStore } from "../stores/auth";
+import Detail from "../views/Detail.vue";
 
 const routes = [
   { path: "/", component: Login },
   { path: "/callback", component: Callback },
-  // { path: "/films", component: Films, meta: { requiresAuth: true } }
+  { path: "/films", component: () => import("../views/Films.vue"), meta: { requiresAuth: true } },
+  { path: "/series", component: () => import("../views/Series.vue"), meta: { requiresAuth: true } },
+  { path: "/detail/:type/:id", component: Detail, meta: { requiresAuth: true } }
 ];
 
 const router = createRouter({
