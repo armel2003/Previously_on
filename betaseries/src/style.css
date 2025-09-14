@@ -248,7 +248,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* Search bar specific styling */
-.search-bar {
+/* .search-bar {
   margin: 1.5rem 0;
   max-width: 500px;
   width: 100%;
@@ -264,7 +264,7 @@ input:focus, select:focus, textarea:focus {
 .search-bar:focus {
   box-shadow: 0 2px 10px rgba(124, 77, 255, 0.2);
   border-color: var(--primary-color);
-}
+} */
 
 
 /* Detail page styling */
