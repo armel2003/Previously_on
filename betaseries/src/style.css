@@ -310,7 +310,59 @@ input:focus, select:focus, textarea:focus {
   border-left: 4px solid var(--error-color);
 }
 
-/* Responsive utility classes are removed as they were unused */
+/* Pagination styling */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pagination-btn {
+  background-color: var(--bg-card-color);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  min-width: 2.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-speed) ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-btn:hover {
+  background-color: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.pagination-btn.active {
+  background: linear-gradient(to right, var(--primary-color), var(--primary-color-dark));
+  color: white;
+  border: none;
+}
+
+.pagination-info {
+  margin: 0 1rem;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.pagination-ellipsis {
+  color: var(--text-secondary);
+  margin: 0 0.5rem;
+  font-weight: bold;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {

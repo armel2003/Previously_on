@@ -42,6 +42,57 @@
       <p>Aucun film trouvé pour "{{ search }}"</p>
       <button @click="search = ''" class="btn btn-secondary">Effacer la recherche</button>
     </div>
+    
+    <!-- Pagination -->
+    <div v-if="filteredFilms.length > 0 && !search.length" class="pagination">
+      <button 
+        class="pagination-btn" 
+        @click="currentPage = 2" 
+        :disabled="currentPage === 2"
+      >
+        &laquo;
+      </button>
+      
+      <button 
+        class="pagination-btn" 
+        @click="currentPage--" 
+        :disabled="currentPage === 2"
+      >
+        &lsaquo;
+      </button>
+      
+      <template v-for="pageNumber in displayedPageNumbers" :key="pageNumber">
+        <button 
+          v-if="pageNumber !== '...'" 
+          class="pagination-btn" 
+          :class="{ active: currentPage === pageNumber }"
+          @click="currentPage = pageNumber"
+        >
+          {{ pageNumber }}
+        </button>
+        <span v-else class="pagination-ellipsis">...</span>
+      </template>
+      
+      <button 
+        class="pagination-btn" 
+        @click="currentPage++" 
+        :disabled="currentPage === totalPages"
+      >
+        &rsaquo;
+      </button>
+      
+      <button 
+        class="pagination-btn" 
+        @click="currentPage = totalPages" 
+        :disabled="currentPage === totalPages"
+      >
+        &raquo;
+      </button>
+      
+      <div class="pagination-info">
+        Page {{ currentPage }} sur {{ totalPages }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -193,14 +244,17 @@
 </style>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import axios from "axios";
 import { useAuthStore } from "../stores/auth";
 
 const auth = useAuthStore();
 const films = ref([]);
 const search = ref("");
+const currentPage = ref(1);
+const itemsPerPage = ref(20); // Nombre de films par page
 
+// Fonction pour récupérer tous les films (nous les paginerons côté client)
 async function fetchFilms() {
   try {
     const res = await axios.get("https://api.betaseries.com/movies/list", {
@@ -212,20 +266,71 @@ async function fetchFilms() {
       params: {
         limit: 100,
         order: 'popularity',
-        locale: 'fr'
+        locale: 'fr',
+        extended: 'full' // Pour obtenir plus de détails, y compris les notes
       }
     });
     films.value = res.data.movies;
+    
+    // Correction du problème des notes - remplacer 'note' par 'notes' si nécessaire
+    films.value = films.value.map(film => {
+      if (film.note && !film.notes) {
+        film.notes = film.note;
+      }
+      return film;
+    });
   } catch (err) {
     console.error(err);
   }
 }
 
-const filteredFilms = computed(() =>
-  films.value.filter((f) =>
+// Filtrer les films en fonction de la recherche
+const filteredFilms = computed(() => {
+  const filtered = films.value.filter((f) =>
     f.title.toLowerCase().includes(search.value.toLowerCase())
-  )
-);
+  );
+  
+  // Si une recherche est en cours, renvoyer tous les résultats filtrés
+  if (search.value) {
+    return filtered;
+  }
+  
+  // Sinon, paginer les résultats
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return filtered.slice(start, end);
+});
+
+// Calculer le nombre total de pages
+const totalPages = computed(() => {
+  if (search.value) return 1;
+  return Math.ceil(films.value.length / itemsPerPage.value);
+});
+
+// Générer les numéros de page à afficher
+const displayedPageNumbers = computed(() => {
+  const total = totalPages.value;
+  const current = currentPage.value;
+  
+  if (total <= 7) {
+    // Si moins de 7 pages, afficher toutes les pages
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  
+  // Sinon, afficher une partie des pages avec des ellipses
+  if (current <= 3) {
+    return [1, 2, 3, 4, 5, '...', total];
+  } else if (current >= total - 2) {
+    return [1, '...', total - 4, total - 3, total - 2, total - 1, total];
+  } else {
+    return [1, '...', current - 1, current, current + 1, '...', total];
+  }
+});
+
+// Réinitialiser la page actuelle lors d'une nouvelle recherche
+watch(search, () => {
+  currentPage.value = 1;
+});
 
 onMounted(fetchFilms);
 </script>
