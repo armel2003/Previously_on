@@ -1,0 +1,119 @@
+{
+    "movie": {
+        "id": 8268,
+        "title": "Excess Baggage",
+        "original_title": "Excess Baggage",
+        "tmdb_id": 26180,
+        "imdb_id": "tt0119086",
+        "url": "excess-baggage",
+        "poster": "https://pictures.betaseries.com/films/affiches/original/8268.jpg",
+        "backdrop": "https://pictures.betaseries.com/films/backdrops/original/8268.jpg",
+        "production_year": 1997,
+        "release_date": "1997-08-29",
+        "original_release_date": "1997-08-29",
+        "sale_date": "1970-01-01",
+        "director": "Marco Brambilla",
+        "length": 6060,
+        "genres": [
+            "Action",
+            "Comédie",
+            "Crime"
+        ],
+        "synopsis": "Emily, adolescente mal dans sa peau, tente sans succès de retenir l'attention de son cher papa. Devant ses échecs répétés, elle tente le tout pour le tout et organise son propre kidnapping. Son plan réussit. En déguisant sa voix, elle prévient son père de l'endroit ou il peut la retrouver: dans le coffre de sa propre voiture. Mais Vincent Roche, voleur professionnel, vole le véhicule.",
+        "tagline": "Vous ne croirez jamais ce dont une fille est capable pour un peu d'attention ...",
+        "language": "Anglais",
+        "notes": {
+            "mean": 2,
+            "total": 5,
+            "user": 0
+        },
+        "followers": 29,
+        "comments": 0,
+        "similars": 0,
+        "characters": 23,
+        "crew": {
+            "producers": [
+                {
+                    "id": "61142",
+                    "name": "Alicia Silverstone",
+                    "slug": "alicia-silverstone",
+                    "picture": "https://pictures.betaseries.com/persons/pyxqkP4i0ubVdoRe5hoiiiwkHkb.jpg"
+                },
+                {
+                    "id": "559110",
+                    "name": "Bill Borden",
+                    "slug": "bill-borden",
+                    "picture": null
+                },
+                {
+                    "id": "600332",
+                    "name": "Carolyn Kessler",
+                    "slug": "carolyn-kessler",
+                    "picture": null
+                }
+            ],
+            "writers": [
+                {
+                    "id": "600331",
+                    "name": "Max D. Adams",
+                    "slug": "max-d-adams",
+                    "picture": null
+                }
+            ],
+            "directors": [
+                {
+                    "id": "570953",
+                    "name": "Marco Brambilla",
+                    "slug": "marco-brambilla",
+                    "picture": "https://pictures.betaseries.com/persons/uTmYDkzNUT4bYhGtcWYCEEtVFFY.jpg"
+                }
+            ]
+        },
+        "user": {
+            "in_account": false,
+            "status": -1,
+            "date": null,
+            "mail": false,
+            "twitter": false,
+            "profile": false,
+            "tags": "",
+            "favorited": false,
+            "friends_watched": [],
+            "friends_want_to_watch": [],
+            "rewatch": {
+                "total": 0,
+                "dates": [],
+                "agenda": false
+            }
+        },
+        "trailer": "GhX7-V-ShiQ",
+        "resource_url": "https://www.betaseries.com/film/8268-excess-baggage",
+        "platform_links": [
+            {
+                "platform": "Apple iTunes",
+                "id": "6",
+                "color": "#3B8DD0",
+                "link": "https://www.betaseries.com/link/176444",
+                "logo": null
+            },
+            {
+                "platform": "Google Play Movies",
+                "id": "7",
+                "color": "#3B8DD0",
+                "link": "https://www.betaseries.com/link/176445",
+                "logo": null
+            },
+            {
+                "platform": "YouTube",
+                "id": "15",
+                "color": "#3B8DD0",
+                "link": "https://www.betaseries.com/link/176446",
+                "logo": null
+            }
+        ],
+        "platforms_svod": [],
+        "releasesSvod": [],
+        "other_title": null
+    },
+    "errors": []
+}
