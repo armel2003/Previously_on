@@ -25,14 +25,11 @@
       >
         <div class="card">
           <div class="img-container">
-            <img :src="serie.images.poster" alt="Affiche de la série" />
+            <img :src="serie.images.poster || '/default-poster.png'" alt="Affiche de la série" loading="lazy" decoding="async" />
             <span class="genre-badge">{{ serie.genres?.[0] ?? 'N/A' }}</span>
+            <span class="note-badge"><span v-if="serie.notes?.mean">★ {{ serie.notes.mean.toFixed(1) }}</span><span v-else>N/A</span></span>
           </div>
-          <h2>{{ serie.title }}</h2>
-          <div class="note">
-            <span v-if="serie.notes?.mean">★ {{ serie.notes.mean.toFixed(1) }}</span>
-            <span v-else>N/A</span>
-          </div>
+          <h2 class="card-title">{{ serie.title }}</h2>
         </div>
       </router-link>
     </div>
@@ -95,7 +92,7 @@
   </div>
 </template>
 
-<style scoped>
+<!-- <style scoped>
 .page-header {
   text-align: center;
   margin-bottom: 2rem;
@@ -240,7 +237,7 @@
     height: 240px;
   }
 }
-</style>
+</style> -->
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
@@ -327,110 +324,137 @@ onMounted(fetchSeries);
 </script>
 
 <style scoped>
+/* Page header */
+.page-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+.search-container {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
 .search-bar {
-  margin: 10px 0;
-  padding: 8px;
   width: 100%;
-  max-width: 400px;
+  padding: 0.85rem 1rem 0.85rem 3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--bg-card-color);
+  font-size: 0.98rem;
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+.search-bar:focus {
+  box-shadow: 0 0 0 6px rgba(124, 77, 255, 0.06);
+}
+
+.no-results {
+  text-align: center;
+  padding: 3rem 0;
+  color: var(--text-secondary);
 }
 .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)), var(--bg-card-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 220ms cubic-bezier(.2, .8, .2, 1), box-shadow 220ms ease;
+  height: 100%;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+  flex-direction: column;
+  box-shadow: 0 8px 30px rgba(8, 10, 30, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+.img-container {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.02));
+}
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 320ms cubic-bezier(.2, .8, .2, 1);
+}
+.genre-badge {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  background: rgba(38, 47, 177, 0.95);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  box-shadow: 0 6px 20px rgba(46, 53, 150, 0.08);
+}
+.note-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #fff;
+  color: #f5b301;
+  font-size: 0.95rem;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 6px 10px;
+  box-shadow: 0 6px 18px rgba(245, 179, 1, 0.08);
+  border: 1px solid rgba(245, 179, 1, 0.06);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-title {
+  font-size: 1.03rem;
+  margin: 10px 12px 12px 12px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.18;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .cards > a {
   text-decoration: none;
   color: inherit;
   display: block;
-  width: 220px;
-  min-width: 220px;
-  max-width: 220px;
-  height: 340px;
-  min-height: 340px;
-  max-height: 340px;
-}
-/* Nouvelle carte améliorée */
-.card {
-  border: none;
-  box-shadow: 0 2px 12px rgba(38,47,177,0.10), 0 1.5px 6px rgba(0,0,0,0.08);
-  padding: 0 0 16px 0;
-  width: 100%;
   height: 100%;
-  box-sizing: border-box;
-  text-align: center;
-  background: #fff;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  transition: box-shadow 0.2s, transform 0.2s;
-  position: relative;
 }
 .cards > a:hover .card {
-  box-shadow: 0 8px 32px rgba(38,47,177,0.18), 0 4px 16px rgba(0,0,0,0.12);
-  transform: translateY(-6px) scale(1.04);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 18px 50px rgba(25, 32, 102, 0.12);
 }
-.img-container {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
+.cards > a:hover .card img {
+  transform: scale(1.05);
 }
-.card img {
-  max-width: 90%;
-  max-height: 200px;
-  object-fit: cover;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+
+@media (max-width: 768px) {
+  .cards { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .img-container { height: 200px; }
 }
-.genre-badge {
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #262fb1;
-  color: #fff;
-  padding: 3px 12px;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  box-shadow: 0 1px 4px rgba(38,47,177,0.10);
-}
-.card h2 {
-  font-size: 1.08rem;
-  margin: 0 0 8px 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 90%;
-  font-weight: 600;
-  color: #262fb1;
-}
-.note {
-  font-size: 1.05rem;
-  color: #f5b301;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-@media (max-width: 600px) {
-  .cards {
-    flex-direction: column;
-    align-items: center;
-  }
-  .cards > a {
-    width: 95vw;
-    min-width: unset;
-    max-width: unset;
-    height: auto;
-    min-height: unset;
-    max-height: unset;
-  }
-  .card img {
-    max-width: 98vw;
-    max-height: 40vw;
-  }
-}
+
 </style>
